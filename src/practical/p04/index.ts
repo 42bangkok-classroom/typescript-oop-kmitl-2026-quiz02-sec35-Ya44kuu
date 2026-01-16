@@ -1,40 +1,42 @@
 import axios from "axios";
 
-type ApiPost = {
-  postId: number;
+type ApiComment = {
+  postId: number | null | undefined;
   id: number;
   name: string;
-  email:string;
+  email: string;
   body: string;
 };
 
-type UserPost = {
-  id: number;
-  body_counter: number = 0;
+type CommentCountByPost = {
+  [postId: number]: number;
 };
 
-export async function countCommentsByPost(): Promise<UserPost[]> {
+export async function countCommentsByPost(): Promise<CommentCountByPost> {
   try {
-    const response = await axios.get<ApiPost[]>(
-      "https://jsonplaceholder.typicode.com/posts"
+    const response = await axios.get<ApiComment[]>(
+      "https://jsonplaceholder.typicode.com/comments"
     );
-  let score = 0;
-    const posts: UserPost[] = response.data
-      .filter((post: ApiPost) => {
-      for(let i = 0;i < post.body.length;i++){
-        if(post.body[i] === "/"){
-          score += 1;
+
+    const comments = response.data;
+
+    if (comments.length === 0) {
+      return {};
+    }
+
+    const result: CommentCountByPost = comments.reduce(
+      (acc: CommentCountByPost, comment: ApiComment) => {
+        if (typeof comment.postId !== "number") {
+          return acc;
         }
 
-      }
-      score = 0;
-  })
-      .map((post: ApiPost): UserPost => ({
-        id: post.id,
-        body_counter: ,
-      }));
+        acc[comment.postId] = (acc[comment.postId] ?? 0) + 1;
+        return acc;
+      },
+      {}
+    );
 
-    return posts;
+    return result;
   } catch (error) {
     throw error;
   }
