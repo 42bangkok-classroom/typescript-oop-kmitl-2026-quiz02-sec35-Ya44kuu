@@ -7,34 +7,32 @@ type ApiPost = {
   body: string;
 };
 
-type EdgePost = {
+type UserPost = {
   id: number;
   title: string;
 };
 
-export async function getEdgePosts(): Promise<EdgePost[]> {
+export async function getPostsByUser(userId:number): Promise<UserPost[]> {
   try {
     const response = await axios.get<ApiPost[]>(
       "https://jsonplaceholder.typicode.com/posts"
     );
 
-    const posts: EdgePost[] = response.data.map(
-      (post: ApiPost): EdgePost => ({
+    const posts: UserPost[] = response.data.map(
+      (post: ApiPost): UserPost => ({
         id: post.id,
         title: post.title,
       })
     );
+  let val:UserPost[] =[];
+  for(let i =0;i<userId;i++){
+    val[i] = posts[i]
+   }
 
-    if (posts.length === 1) {
-      return [posts[0], posts[0]];
-    }
-
-    if (posts.length === 2) {
-      return posts;
-    }
-
-    return [posts[0], posts[posts.length - 1]];
+  // console.log(val);
+  return val;
   } catch (error) {
     throw error;
   }
 }
+// getPostsByUser(1)
