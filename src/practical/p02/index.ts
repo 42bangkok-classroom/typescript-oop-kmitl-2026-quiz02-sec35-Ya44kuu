@@ -12,27 +12,24 @@ type UserPost = {
   title: string;
 };
 
-export async function getPostsByUser(userId:number): Promise<UserPost[]> {
+export async function getPostsByUser(
+  userId: number
+): Promise<UserPost[]> {
   try {
     const response = await axios.get<ApiPost[]>(
       "https://jsonplaceholder.typicode.com/posts"
     );
 
-    const posts: UserPost[] = response.data.map(
-      (post: ApiPost): UserPost => ({
+    const posts: UserPost[] = response.data
+      .filter((post: ApiPost) => post.userId === userId)
+      .map((post: ApiPost): UserPost => ({
         id: post.id,
         title: post.title,
-      })
-    );
-  let val:UserPost[] =[];
-  for(let i =0;i<userId;i++){
-    val[i] = posts[i]
-   }
+      }));
 
-  // console.log(val);
-  return val;
+    return posts;
   } catch (error) {
     throw error;
   }
 }
-// getPostsByUser(1)
+
