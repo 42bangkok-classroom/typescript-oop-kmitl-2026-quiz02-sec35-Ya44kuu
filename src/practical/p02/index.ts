@@ -26,10 +26,11 @@ export async function getPostsByUser(
         id: post.id,
         title: post.title,
       }));
-
+      
     return posts;
   } catch (error) {
     throw error;
   }
 }
+
 

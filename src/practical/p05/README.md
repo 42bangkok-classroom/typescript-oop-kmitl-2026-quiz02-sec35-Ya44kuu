@@ -3,7 +3,7 @@
 ## API Endpoint
 
 ```
-https://jsonplaceholder.typicode.com/comments/{id}
+https://jsonplaceholder.typicode.com/comments
 ```
 
 ## Function name
