@@ -39,7 +39,7 @@ export async function mapPostWithCommentCount():Promise<comment_each_post[]> {
       }
     });
 
-    return output
+    return output;
   }catch(err){
     throw err;
 
