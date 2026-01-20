@@ -35,11 +35,10 @@ export async function countCommentsByPost(): Promise<CommentCountByPost> {
       },
       {}
     );
-    console.log(result);
     return result;
   } catch (error) {
     throw error;
   }
 }
-countCommentsByPost();
+
 
