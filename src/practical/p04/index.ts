@@ -35,9 +35,11 @@ export async function countCommentsByPost(): Promise<CommentCountByPost> {
       },
       {}
     );
-
+    console.log(result); //ทำไมlogไม่ออก
     return result;
   } catch (error) {
     throw error;
   }
 }
+countCommentsByPost();
+
