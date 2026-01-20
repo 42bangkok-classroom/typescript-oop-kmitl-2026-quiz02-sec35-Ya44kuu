@@ -13,7 +13,7 @@ type commentPost ={
 
 export async function safeFetchComment(commentId:number | null):Promise<commentPost | null>{
   try{
-    const res= await axios.get<api[]>("https://jsonplaceholder.typicode.com/comments");
+    const res= await axios.get<api[]>("https://jsonplaceholder.typicode.com/comments/{id}");
 if (!commentId || typeof commentId !== 'number' || commentId <= 0) {
       return null;
     }
