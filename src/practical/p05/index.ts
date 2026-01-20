@@ -8,23 +8,26 @@ type api = {
 }
 type commentPost ={
   id:number;
-  title:string;
+  body:string;
 }
 
-export async function safeFetchComment(commentId:number):Promise<commentPost | null>{
+export async function safeFetchComment(commentId:number | null):Promise<commentPost | null>{
   try{
     const res= await axios.get<api[]>("https://jsonplaceholder.typicode.com/comments");
-    if(commentId < 0 || commentId > res.data.length || !commentId) {
-      return null; // ส่งค่า null ออกไป
+    if(!commentId || commentId <= 0) {
+      return null;
     }
-    const output:commentPost[] = res.data.filter((post:api) => post.id === commentId);
+    const output = res.data.find((post:api) => post.id === commentId);
     // console.log(output[0]);
+    if(!output){
+      return null;
+    }
     return {
-      id: output[0].id,
-      title: output[0].title
+      id: output.id,
+      body: output.title
     };
   }catch(error){
-    throw error;
+    return null;
   }
 }
 // safeFetchComment(2);
