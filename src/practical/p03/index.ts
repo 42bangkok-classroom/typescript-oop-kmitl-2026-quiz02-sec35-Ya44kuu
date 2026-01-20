@@ -13,7 +13,7 @@ type commentpost = {
   body:string;
 }
 type comment_each_post = {
-  postid:number;
+  postId:number;
   title:string;
   totalComments:number;
 
@@ -33,7 +33,7 @@ export async function mapPostWithCommentCount():Promise<comment_each_post[]> {
     const output =  posts.map((post) =>{
       const totalComment = comments.filter((comment)=> comment.postId === post.id).length
       return{
-        postid: post.id,
+        postId: post.id,
         title:post.title,
         totalComments:totalComment
       }
